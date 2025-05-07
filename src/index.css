@@ -63,6 +63,70 @@ body {
   transform: translateY(-5%);
 }
 
+.instructions {
+  text-align: left;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.instructions h1 {
+  color: #6b21a8;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.instructions p {
+  margin-bottom: 0.5rem;
+}
+
+.instructions ul {
+  margin: 0.5rem 0;
+}
+
+.instructions button {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.instructions button:hover {
+  transform: scale(1.05);
+}
+
+.pause-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.pause-menu {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+}
+
+.pause-button {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  color: white;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  width: 100%;
+}
+
+.pause-button:hover {
+  transform: scale(1.05);
+}
+
 input[type="number"] {
   font-family: 'Press Start 2P', cursive;
   font-size: 0.8rem;

@@ -1,4 +1,10 @@
 import { useState, useEffect } from "react";
+import PauseMenu from "./components/PauseMenu";
+import Instructions from "./components/Instructions";
+import GameOver from "./components/GameOver";
+import Victory from "./components/Victory";
+import GameControls from "./components/GameControls";
+import ScoreDisplay from "./components/ScoreDisplay";
 
 export default function Game() {
   const TOTAL_GRAPES = 1000;
@@ -9,9 +15,18 @@ export default function Game() {
   const [grapeQuantity, setGrapeQuantity] = useState(1);
   const [eatenGrapes, setEatenGrapes] = useState([]);
   const [customQuantity, setCustomQuantity] = useState("");
+  const [showInstructions, setShowInstructions] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    resetGame();
+    const handleKeyPress = (e) => {
+      if (e.key === 'Escape') {
+        setIsPaused(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
   }, []);
 
   function resetGame() {
@@ -22,6 +37,7 @@ export default function Game() {
     setGrapeQuantity(1);
     setEatenGrapes([]);
     setCustomQuantity("");
+    setIsPaused(false);
   }
 
   function handleCustomQuantityChange(e) {
@@ -55,28 +71,30 @@ export default function Game() {
     setCurrentIndex(currentIndex + grapeQuantity);
   }
 
+  if (showInstructions) {
+    return <Instructions onStart={() => setShowInstructions(false)} />;
+  }
+
   if (gameOver) {
-    return (
-      <div className="text-center p-4">
-        <h1 className="text-red-500 text-3xl mb-4">💀 You ate a poisoned grape!</h1>
-        <p className="text-xl mb-4">Final Score: {score}</p>
-        <button onClick={resetGame} className="bg-purple-500 text-white p-2 rounded">Restart</button>
-      </div>
-    );
+    return <GameOver score={score} onRestart={resetGame} />;
   }
 
   if (currentIndex >= TOTAL_GRAPES) {
-    return (
-      <div className="text-center p-4">
-        <h1 className="text-green-400 text-3xl mb-4">🎉 You ate all the grapes safely!</h1>
-        <p className="text-xl mb-4">Final Score: {score}</p>
-        <button onClick={resetGame} className="bg-purple-500 text-white p-2 rounded">Play Again</button>
-      </div>
-    );
+    return <Victory score={score} onRestart={resetGame} />;
   }
 
   return (
     <div className="game-container">
+      {isPaused && (
+        <PauseMenu
+          onResume={() => setIsPaused(false)}
+          onRestart={resetGame}
+          onShowInstructions={() => {
+            setIsPaused(false);
+            setShowInstructions(true);
+          }}
+        />
+      )}
       <div className="grape-pattern">
         {eatenGrapes.map((grape) => (
           <img
@@ -93,60 +111,19 @@ export default function Game() {
       </div>
       <div className="game-content">
         <img src="/sprites/grape.png" alt="grape" className="w-20 h-20" />
-        <div className="flex flex-col items-center gap-4">
-          <div className="flex flex-col items-center gap-2">
-            <div className="flex gap-2">
-              <button 
-                onClick={() => setGrapeQuantity(5)} 
-                className={`px-3 py-1 rounded ${grapeQuantity === 5 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-              >
-                5
-              </button>
-              <button 
-                onClick={() => setGrapeQuantity(10)} 
-                className={`px-3 py-1 rounded ${grapeQuantity === 10 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-              >
-                10
-              </button>
-              <button 
-                onClick={() => setGrapeQuantity(100)} 
-                className={`px-3 py-1 rounded ${grapeQuantity === 100 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-              >
-                100
-              </button>
-            </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                value={customQuantity}
-                onChange={handleCustomQuantityChange}
-                placeholder="Custom amount"
-                min="1"
-                max={TOTAL_GRAPES - currentIndex}
-                className="w-32 px-2 py-1 border rounded text-center"
-              />
-              <span className="text-sm text-gray-600">grapes</span>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <button 
-              onClick={handleEat} 
-              className="bg-green-500 p-2 rounded"
-              disabled={grapeQuantity <= 0 || grapeQuantity > (TOTAL_GRAPES - currentIndex)}
-            >
-              🍽 Eat {grapeQuantity}
-            </button>
-            <button 
-              onClick={handleSkip} 
-              className="bg-yellow-500 p-2 rounded"
-              disabled={grapeQuantity <= 0 || grapeQuantity > (TOTAL_GRAPES - currentIndex)}
-            >
-              🚫 Skip {grapeQuantity}
-            </button>
-          </div>
-        </div>
-        <p>Score: {score}</p>
-        <p>Grapes Left: {TOTAL_GRAPES - currentIndex}</p>
+        <GameControls
+          grapeQuantity={grapeQuantity}
+          setGrapeQuantity={setGrapeQuantity}
+          customQuantity={customQuantity}
+          setCustomQuantity={setCustomQuantity}
+          onEat={handleEat}
+          onSkip={handleSkip}
+          remainingGrapes={TOTAL_GRAPES - currentIndex}
+        />
+        <ScoreDisplay
+          score={score}
+          remainingGrapes={TOTAL_GRAPES - currentIndex}
+        />
       </div>
     </div>
   );
