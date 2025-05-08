@@ -75,35 +75,24 @@ export default function Game() {
     setCurrentIndex(currentIndex + grapeQuantity);
   }
 
-  const saveScore = async (finalScore) => {
-    // Only save score if user is logged in and score hasn't been saved yet
-    if (auth.currentUser && !scoreSaved) {
-      try {
-        console.log('Saving score for user:', auth.currentUser.email);
-        console.log('Score to save:', finalScore);
-        
-        const scoreData = {
-          score: finalScore,
-          playerName: auth.currentUser.displayName || auth.currentUser.email,
-          timestamp: new Date(),
-          userId: auth.currentUser.uid,
-          gameResult: currentIndex >= TOTAL_GRAPES ? 'victory' : 'game_over'
-        };
-        
-        console.log('Score data to save:', scoreData);
-        
-        const docRef = await addDoc(collection(db, 'scores'), scoreData);
-        console.log('Score saved with ID:', docRef.id);
-        
-        setScoreSaved(true);
-      } catch (error) {
-        console.error('Error saving score:', error);
-      }
-    } else {
-      console.log('Score not saved because:', {
-        isLoggedIn: !!auth.currentUser,
-        alreadySaved: scoreSaved
-      });
+  const saveScore = async (score) => {
+    if (!auth.currentUser || scoreSaved) return;
+
+    try {
+      const displayName = auth.currentUser.displayName || auth.currentUser.email;
+      const scoreData = {
+        userId: auth.currentUser.uid,
+        playerName: displayName,
+        score: score,
+        timestamp: new Date(),
+        result: gameOver ? 'game_over' : 'victory'
+      };
+
+      console.log('Saving score:', scoreData);
+      await addDoc(collection(db, 'scores'), scoreData);
+      setScoreSaved(true);
+    } catch (error) {
+      console.error('Error saving score:', error);
     }
   };
 
