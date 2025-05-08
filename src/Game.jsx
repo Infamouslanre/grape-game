@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { collection, addDoc } from 'firebase/firestore';
+import { db, auth } from './firebase';
 import PauseMenu from "./components/PauseMenu";
 import Instructions from "./components/Instructions";
 import GameOver from "./components/GameOver";
@@ -17,6 +19,7 @@ export default function Game() {
   const [customQuantity, setCustomQuantity] = useState("");
   const [showInstructions, setShowInstructions] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const [scoreSaved, setScoreSaved] = useState(false);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -38,6 +41,7 @@ export default function Game() {
     setEatenGrapes([]);
     setCustomQuantity("");
     setIsPaused(false);
+    setScoreSaved(false);
   }
 
   function handleCustomQuantityChange(e) {
@@ -70,6 +74,52 @@ export default function Game() {
   function handleSkip() {
     setCurrentIndex(currentIndex + grapeQuantity);
   }
+
+  const saveScore = async (finalScore) => {
+    // Only save score if user is logged in and score hasn't been saved yet
+    if (auth.currentUser && !scoreSaved) {
+      try {
+        console.log('Saving score for user:', auth.currentUser.email);
+        console.log('Score to save:', finalScore);
+        
+        const scoreData = {
+          score: finalScore,
+          playerName: auth.currentUser.displayName || auth.currentUser.email,
+          timestamp: new Date(),
+          userId: auth.currentUser.uid,
+          gameResult: currentIndex >= TOTAL_GRAPES ? 'victory' : 'game_over'
+        };
+        
+        console.log('Score data to save:', scoreData);
+        
+        const docRef = await addDoc(collection(db, 'scores'), scoreData);
+        console.log('Score saved with ID:', docRef.id);
+        
+        setScoreSaved(true);
+      } catch (error) {
+        console.error('Error saving score:', error);
+      }
+    } else {
+      console.log('Score not saved because:', {
+        isLoggedIn: !!auth.currentUser,
+        alreadySaved: scoreSaved
+      });
+    }
+  };
+
+  // Save score when game ends (either victory or game over)
+  useEffect(() => {
+    if ((gameOver || currentIndex >= TOTAL_GRAPES) && !scoreSaved) {
+      console.log('Game ended, attempting to save score...');
+      console.log('Game state:', {
+        gameOver,
+        currentIndex,
+        score,
+        scoreSaved
+      });
+      saveScore(score);
+    }
+  }, [gameOver, currentIndex, score, scoreSaved]);
 
   if (showInstructions) {
     return <Instructions onStart={() => setShowInstructions(false)} />;
