@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { collection, addDoc } from 'firebase/firestore';
 import { db, auth } from './firebase';
-import PauseMenu from "./components/game/PauseMenu";
-import Instructions from "./components/game/Instructions";
-import GameOver from "./components/game/GameOver";
-import Victory from "./components/game/Victory";
-import GameControls from "./components/game/GameControls";
-import ScoreDisplay from "./components/game/ScoreDisplay";
+import PauseMenu from "./components/PauseMenu";
+import Instructions from "./components/Instructions";
+import GameOver from "./components/GameOver";
+import Victory from "./components/Victory";
+import GameControls from "./components/GameControls";
+import ScoreDisplay from "./components/ScoreDisplay";
 
 export default function Game() {
   const TOTAL_GRAPES = 1000;

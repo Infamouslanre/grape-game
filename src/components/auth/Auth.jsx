@@ -6,9 +6,9 @@ import {
   signInWithPopup,
   updateProfile
 } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 
-const Auth = ({ onClose }) => {
+const Auth = ({ onClose, onGuestMode }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -70,7 +70,7 @@ const Auth = ({ onClose }) => {
   };
 
   const handleGuestPlay = () => {
-    onClose();
+    onGuestMode();
   };
 
   return (

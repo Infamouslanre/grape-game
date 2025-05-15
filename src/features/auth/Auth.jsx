@@ -69,10 +69,6 @@ const Auth = ({ onClose }) => {
     }
   };
 
-  const handleGuestPlay = () => {
-    onClose();
-  };
-
   return (
     <div className="auth-overlay">
       <div className="auth-container">
@@ -165,18 +161,6 @@ const Auth = ({ onClose }) => {
         >
           {isLogin ? 'Need an account? Register' : 'Already have an account? Login'}
         </button>
-
-        <div className="mt-4">
-          <button
-            onClick={handleGuestPlay}
-            className="auth-button bg-green-600 hover:bg-green-700 w-full"
-          >
-            Play as Guest
-          </button>
-          <p className="text-sm text-gray-500 text-center mt-2">
-            Note: Guest players cannot save high scores
-          </p>
-        </div>
       </div>
     </div>
   );

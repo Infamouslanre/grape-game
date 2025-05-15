@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import Auth from './components/Auth';
-import HighScores from './components/HighScores';
-import Game from "./Game";
+import Game from './Game';
+import Auth from './components/auth/Auth';
+import HighScores from './components/layout/HighScores';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -34,7 +34,12 @@ function App() {
   }
 
   if (!user && !isGuest) {
-    return <Auth onAuthSuccess={() => setUser(auth.currentUser)} onGuestMode={handleGuestMode} />;
+    return (
+      <Auth 
+        onClose={() => setUser(auth.currentUser)} 
+        onGuestMode={handleGuestMode}
+      />
+    );
   }
 
   return (
