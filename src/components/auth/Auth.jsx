@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../firebase';
 
-const Auth = ({ onClose, onGuestMode }) => {
+const Auth = ({ onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -70,7 +70,7 @@ const Auth = ({ onClose, onGuestMode }) => {
   };
 
   const handleGuestPlay = () => {
-    onGuestMode();
+    onClose();
   };
 
   return (
