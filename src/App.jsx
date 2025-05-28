@@ -9,6 +9,7 @@ import HighScores from './components/layout/HighScores';
 import ErrorBoundary from './components/ErrorBoundary';
 import LoadingSpinner from './components/LoadingSpinner';
 import SEO from './components/SEO';
+import AdSpace from './components/ads/AdSpace';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -116,8 +117,35 @@ function App() {
                 )}
               </div>
             </div>
-            <Game />
+
+            {/* Top Ad Space */}
+            <div className="mb-8">
+              <AdSpace position="top" className="max-w-3xl mx-auto" />
+            </div>
+
+            <div className="flex gap-8">
+              {/* Left Sidebar Ad */}
+              <div className="hidden lg:block w-[300px] flex-shrink-0">
+                <AdSpace position="sidebar-left" className="sticky top-8" />
+              </div>
+
+              {/* Main Game Area */}
+              <div className="flex-grow">
+                <Game />
+              </div>
+
+              {/* Right Sidebar Ad */}
+              <div className="hidden lg:block w-[300px] flex-shrink-0">
+                <AdSpace position="sidebar-right" className="sticky top-8" />
+              </div>
+            </div>
+
+            {/* Bottom Ad Space */}
+            <div className="mt-8">
+              <AdSpace position="bottom" className="max-w-3xl mx-auto" />
+            </div>
           </div>
+
           {showHighScores && (
             <HighScores onClose={() => setShowHighScores(false)} />
           )}

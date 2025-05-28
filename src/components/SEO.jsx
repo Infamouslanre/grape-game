@@ -32,6 +32,9 @@ const SEO = ({
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="theme-color" content="#6b21a8" />
       <link rel="canonical" href={url} />
+
+      {/* Google AdSense */}
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7131419666924013" crossorigin="anonymous"></script>
     </Helmet>
   );
 };
