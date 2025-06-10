@@ -43,10 +43,10 @@ export default function HighScores({ onClose }) {
     <div className="high-scores-overlay">
       <div className="high-scores-container">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-purple-600">Global High Scores</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-purple-600">Global High Scores</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-gray-500 hover:text-gray-700 text-lg sm:text-xl"
           >
             ✕
           </button>
@@ -69,10 +69,10 @@ export default function HighScores({ onClose }) {
                 {scores.map((score, index) => (
                   <div
                     key={score.id}
-                    className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm"
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 sm:p-3 bg-white rounded-lg shadow-sm"
                   >
-                    <div className="flex items-center space-x-4">
-                      <span className={`text-lg font-bold ${
+                    <div className="flex items-center space-x-2 sm:space-x-4">
+                      <span className={`text-base sm:text-lg font-bold ${
                         index === 0 ? 'text-yellow-500' :
                         index === 1 ? 'text-gray-400' :
                         index === 2 ? 'text-amber-600' :
@@ -80,13 +80,13 @@ export default function HighScores({ onClose }) {
                       }`}>
                         #{index + 1}
                       </span>
-                      <span className="font-medium">{score.playerName || 'Anonymous'}</span>
+                      <span className="font-medium text-sm sm:text-base">{score.playerName || 'Anonymous'}</span>
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <span className="text-sm text-gray-500">
+                    <div className="flex items-center space-x-2 sm:space-x-4 mt-1 sm:mt-0">
+                      <span className="text-xs sm:text-sm text-gray-500">
                         {score.gameResult === 'victory' ? '🏆' : '💀'}
                       </span>
-                      <span className="font-bold text-purple-600">{score.score}</span>
+                      <span className="font-bold text-purple-600 text-sm sm:text-base">{score.score}</span>
                     </div>
                   </div>
                 ))}
