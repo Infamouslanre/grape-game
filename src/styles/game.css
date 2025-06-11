@@ -1,0 +1,222 @@
+/* Game Container */
+.game-container {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+/* Game Content */
+.game-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* Grape Pattern */
+.grape-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.grape-pattern-item {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  opacity: 0.3;
+  transform: rotate(var(--rotation, 0deg));
+  transition: opacity 0.3s ease;
+}
+
+/* Game Controls */
+.game-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.quantity-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background-color: #6b21a8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background-color: #7c3aed;
+  transform: scale(1.05);
+}
+
+.quantity-input {
+  width: 80px;
+  height: 40px;
+  text-align: center;
+  font-size: 1.2rem;
+  border: 2px solid #6b21a8;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.custom-quantity-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.custom-quantity-input {
+  width: 120px;
+  height: 40px;
+  text-align: center;
+  font-size: 1rem;
+  border: 2px solid #6b21a8;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.custom-quantity-btn {
+  height: 40px;
+  padding: 0 1rem;
+  background-color: #6b21a8;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-quantity-btn:hover {
+  background-color: #7c3aed;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.eat-btn, .skip-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 150px;
+}
+
+.eat-btn {
+  background-color: #10b981;
+  color: white;
+}
+
+.eat-btn:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.skip-btn {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.skip-btn:hover:not(:disabled) {
+  background-color: #d97706;
+}
+
+/* Score Display */
+.score-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.score, .remaining {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-label, .remaining-label {
+  font-size: 1rem;
+  color: #6b21a8;
+}
+
+.score-value, .remaining-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #4b5563;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .game-content {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .eat-btn, .skip-btn {
+    width: 100%;
+  }
+
+  .quantity-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .custom-quantity-form {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .custom-quantity-input {
+    width: 100%;
+  }
+
+  .custom-quantity-btn {
+    width: 100%;
+  }
+} 

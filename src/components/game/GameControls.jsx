@@ -3,39 +3,31 @@ import React, { useCallback } from 'react';
 const GameControls = React.memo(({
   grapeQuantity,
   setGrapeQuantity,
-  customQuantity,
-  setCustomQuantity,
   onEat,
   onSkip,
   remainingGrapes
 }) => {
   const handleQuantityChange = useCallback((e) => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value) && value > 0 && value <= remainingGrapes) {
-      setGrapeQuantity(value);
+    const value = e.target.value;
+    // Allow empty input
+    if (value === '') {
+      setGrapeQuantity(0);
+      return;
+    }
+    
+    const numValue = parseInt(value);
+    if (!isNaN(numValue) && numValue >= 0 && numValue <= remainingGrapes) {
+      setGrapeQuantity(numValue);
     }
   }, [remainingGrapes, setGrapeQuantity]);
 
-  const handleCustomQuantityChange = useCallback((e) => {
-    setCustomQuantity(e.target.value);
-  }, [setCustomQuantity]);
-
-  const handleCustomQuantitySubmit = useCallback((e) => {
-    e.preventDefault();
-    const value = parseInt(customQuantity);
-    if (!isNaN(value) && value > 0 && value <= remainingGrapes) {
-      setGrapeQuantity(value);
-      setCustomQuantity("");
-    }
-  }, [customQuantity, remainingGrapes, setGrapeQuantity, setCustomQuantity]);
-
   return (
-    <div className="game-controls">
+    <div className="game-controls animate-slide-up">
       <div className="quantity-controls">
         <button
-          onClick={() => setGrapeQuantity(prev => Math.max(1, prev - 1))}
-          disabled={grapeQuantity <= 1}
-          className="quantity-btn"
+          onClick={() => setGrapeQuantity(prev => Math.max(0, prev - 1))}
+          disabled={grapeQuantity <= 0}
+          className="quantity-btn animate-button"
         >
           -
         </button>
@@ -43,40 +35,33 @@ const GameControls = React.memo(({
           type="number"
           value={grapeQuantity}
           onChange={handleQuantityChange}
-          min="1"
+          min="0"
           max={remainingGrapes}
           className="quantity-input"
         />
         <button
           onClick={() => setGrapeQuantity(prev => Math.min(remainingGrapes, prev + 1))}
           disabled={grapeQuantity >= remainingGrapes}
-          className="quantity-btn"
+          className="quantity-btn animate-button"
         >
           +
         </button>
       </div>
 
-      <form onSubmit={handleCustomQuantitySubmit} className="custom-quantity-form">
-        <input
-          type="number"
-          value={customQuantity}
-          onChange={handleCustomQuantityChange}
-          placeholder="Custom quantity"
-          min="1"
-          max={remainingGrapes}
-          className="custom-quantity-input"
-        />
-        <button type="submit" className="custom-quantity-btn">
-          Set
-        </button>
-      </form>
-
       <div className="action-buttons">
-        <button onClick={onEat} className="eat-btn">
-          Eat {grapeQuantity} Grape{grapeQuantity > 1 ? 's' : ''}
+        <button 
+          onClick={onEat} 
+          className="eat-btn animate-button"
+          disabled={grapeQuantity <= 0 || grapeQuantity > remainingGrapes}
+        >
+          Eat {grapeQuantity} Grape{grapeQuantity !== 1 ? 's' : ''}
         </button>
-        <button onClick={onSkip} className="skip-btn">
-          Skip {grapeQuantity} Grape{grapeQuantity > 1 ? 's' : ''}
+        <button 
+          onClick={onSkip} 
+          className="skip-btn animate-button"
+          disabled={grapeQuantity <= 0 || grapeQuantity > remainingGrapes}
+        >
+          Skip {grapeQuantity} Grape{grapeQuantity !== 1 ? 's' : ''}
         </button>
       </div>
     </div>

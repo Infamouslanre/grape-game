@@ -10,7 +10,6 @@ export const useGameLogic = () => {
   const [gameOver, setGameOver] = useState(false);
   const [grapeQuantity, setGrapeQuantity] = useState(1);
   const [eatenGrapes, setEatenGrapes] = useState([]);
-  const [customQuantity, setCustomQuantity] = useState("");
   const [scoreSaved, setScoreSaved] = useState(false);
 
   // Memoize the remaining grapes calculation
@@ -23,7 +22,6 @@ export const useGameLogic = () => {
     setGameOver(false);
     setGrapeQuantity(1);
     setEatenGrapes([]);
-    setCustomQuantity("");
     setScoreSaved(false);
   }, []);
 
@@ -84,8 +82,6 @@ export const useGameLogic = () => {
     grapeQuantity,
     setGrapeQuantity,
     eatenGrapes,
-    customQuantity,
-    setCustomQuantity,
     remainingGrapes,
     resetGame,
     handleEat,

@@ -6,6 +6,8 @@ import Victory from "./components/game/Victory";
 import GameControls from "./components/game/GameControls";
 import ScoreDisplay from "./components/game/ScoreDisplay";
 import { useGameLogic } from "./hooks/useGameLogic";
+import "./styles/animations.css";
+import "./styles/game.css";
 import React from "react";
 
 // Memoized Grape Pattern Component
@@ -16,10 +18,11 @@ const GrapePattern = React.memo(({ eatenGrapes }) => (
         key={grape.id}
         src="/sprites/grape.png"
         alt="eaten grape"
-        className="grape-pattern-item"
+        className="grape-pattern-item animate-eat"
         style={{
           left: `${grape.x}%`,
-          top: `${grape.y}px`
+          top: `${grape.y}px`,
+          '--rotation': `${Math.random() * 360}deg`
         }}
       />
     ))}
@@ -29,6 +32,7 @@ const GrapePattern = React.memo(({ eatenGrapes }) => (
 export default function Game() {
   const [showInstructions, setShowInstructions] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const [showScoreAnimation, setShowScoreAnimation] = useState(false);
   
   const {
     currentIndex,
@@ -37,8 +41,6 @@ export default function Game() {
     grapeQuantity,
     setGrapeQuantity,
     eatenGrapes,
-    customQuantity,
-    setCustomQuantity,
     remainingGrapes,
     resetGame,
     handleEat,
@@ -57,6 +59,13 @@ export default function Game() {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, []);
 
+  // Trigger score animation when score changes
+  useEffect(() => {
+    setShowScoreAnimation(true);
+    const timer = setTimeout(() => setShowScoreAnimation(false), 300);
+    return () => clearTimeout(timer);
+  }, [score]);
+
   if (showInstructions) {
     return <Instructions onStart={() => setShowInstructions(false)} />;
   }
@@ -70,7 +79,7 @@ export default function Game() {
   }
 
   return (
-    <div className="game-container">
+    <div className="game-container animate-fade-in">
       {isPaused && (
         <PauseMenu
           onResume={() => setIsPaused(false)}
@@ -82,13 +91,15 @@ export default function Game() {
         />
       )}
       <GrapePattern eatenGrapes={eatenGrapes} />
-      <div className="game-content">
-        <img src="/sprites/grape.png" alt="grape" className="w-20 h-20" />
+      <div className="game-content animate-slide-up">
+        <img 
+          src="/sprites/grape.png" 
+          alt="grape" 
+          className="w-20 h-20 animate-button" 
+        />
         <GameControls
           grapeQuantity={grapeQuantity}
           setGrapeQuantity={setGrapeQuantity}
-          customQuantity={customQuantity}
-          setCustomQuantity={setCustomQuantity}
           onEat={handleEat}
           onSkip={handleSkip}
           remainingGrapes={remainingGrapes}
@@ -96,6 +107,7 @@ export default function Game() {
         <ScoreDisplay
           score={score}
           remainingGrapes={remainingGrapes}
+          showAnimation={showScoreAnimation}
         />
       </div>
     </div>
