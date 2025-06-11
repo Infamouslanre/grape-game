@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { collection, addDoc } from 'firebase/firestore';
 import { db, auth } from './firebase';
 import PauseMenu from "./components/game/PauseMenu";
@@ -44,15 +44,6 @@ export default function Game() {
     setScoreSaved(false);
   }
 
-  function handleCustomQuantityChange(e) {
-    const value = e.target.value;
-    setCustomQuantity(value);
-    const numValue = parseInt(value);
-    if (!isNaN(numValue) && numValue > 0) {
-      setGrapeQuantity(numValue);
-    }
-  }
-
   function handleEat() {
     const endIndex = Math.min(currentIndex + grapeQuantity, TOTAL_GRAPES);
     const isPoisoned = poisonIndex >= currentIndex && poisonIndex < endIndex;
@@ -75,7 +66,7 @@ export default function Game() {
     setCurrentIndex(currentIndex + grapeQuantity);
   }
 
-  const saveScore = async (score) => {
+  const saveScore = useCallback(async (score) => {
     if (!auth.currentUser || scoreSaved) return;
 
     try {
@@ -94,7 +85,7 @@ export default function Game() {
     } catch (error) {
       console.error('Error saving score:', error);
     }
-  };
+  }, [gameOver, scoreSaved]);
 
   // Save score when game ends (either victory or game over)
   useEffect(() => {
@@ -108,7 +99,7 @@ export default function Game() {
       });
       saveScore(score);
     }
-  }, [gameOver, currentIndex, score, scoreSaved]);
+  }, [gameOver, currentIndex, score, scoreSaved, saveScore]);
 
   if (showInstructions) {
     return <Instructions onStart={() => setShowInstructions(false)} />;
