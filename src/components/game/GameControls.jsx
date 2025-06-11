@@ -7,8 +7,6 @@ const GameControls = React.memo(({
   onSkip,
   remainingGrapes
 }) => {
-  const [isDecreasing, setIsDecreasing] = useState(false);
-  const [isIncreasing, setIsIncreasing] = useState(false);
   const [decreaseInterval, setDecreaseInterval] = useState(null);
   const [increaseInterval, setIncreaseInterval] = useState(null);
 
@@ -27,7 +25,6 @@ const GameControls = React.memo(({
   }, [remainingGrapes, setGrapeQuantity]);
 
   const startDecreasing = useCallback(() => {
-    setIsDecreasing(true);
     setGrapeQuantity(prev => Math.max(0, prev - 1));
     const interval = setInterval(() => {
       setGrapeQuantity(prev => Math.max(0, prev - 1));
@@ -36,7 +33,6 @@ const GameControls = React.memo(({
   }, [setGrapeQuantity]);
 
   const startIncreasing = useCallback(() => {
-    setIsIncreasing(true);
     setGrapeQuantity(prev => Math.min(remainingGrapes, prev + 1));
     const interval = setInterval(() => {
       setGrapeQuantity(prev => Math.min(remainingGrapes, prev + 1));
@@ -45,8 +41,6 @@ const GameControls = React.memo(({
   }, [remainingGrapes, setGrapeQuantity]);
 
   const stopChanging = useCallback(() => {
-    setIsDecreasing(false);
-    setIsIncreasing(false);
     if (decreaseInterval) {
       clearInterval(decreaseInterval);
       setDecreaseInterval(null);
