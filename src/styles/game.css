@@ -1,13 +1,28 @@
 /* Game Container */
 .game-container {
-  position: relative;
-  width: 100%;
-  min-height: calc(100vh - 100px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
+  max-width: 800px;
   margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Game Header */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.game-title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  margin: 0;
+  color: #4a5568;
 }
 
 /* Game Content */
@@ -52,46 +67,59 @@
 .game-controls {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .quantity-controls {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
 }
 
 .quantity-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 3rem;
+  height: 3rem;
   font-size: 1.5rem;
-  background-color: #6b21a8;
-  color: white;
-  border: none;
+  border-radius: 0.5rem;
+  border: 2px solid #4a5568;
+  background: white;
+  color: #4a5568;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-.quantity-btn:hover:not(:disabled) {
-  background-color: #7c3aed;
-  transform: scale(1.05);
+.quantity-btn:active {
+  transform: scale(0.95);
+  background: #f7fafc;
+}
+
+.quantity-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .quantity-input {
-  width: 80px;
-  height: 40px;
+  width: 4rem;
+  height: 3rem;
   text-align: center;
-  font-size: 1.2rem;
-  border: 2px solid #6b21a8;
+  font-size: 1.25rem;
+  border: 2px solid #4a5568;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  -moz-appearance: textfield;
+  touch-action: manipulation;
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .custom-quantity-form {
@@ -128,37 +156,50 @@
 
 .action-buttons {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
   width: 100%;
-  justify-content: center;
 }
 
-.eat-btn, .skip-btn {
-  padding: 0.75rem 1.5rem;
-  border: none;
+.action-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: clamp(1rem, 4vw, 1.25rem);
   border-radius: 0.5rem;
-  font-size: 1rem;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 150px;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.action-btn:active {
+  transform: scale(0.98);
 }
 
 .eat-btn {
-  background-color: #10b981;
+  background: #48bb78;
   color: white;
 }
 
-.eat-btn:hover:not(:disabled) {
-  background-color: #059669;
+.eat-btn:active {
+  background: #38a169;
 }
 
 .skip-btn {
-  background-color: #f59e0b;
+  background: #f56565;
   color: white;
 }
 
-.skip-btn:hover:not(:disabled) {
-  background-color: #d97706;
+.skip-btn:active {
+  background: #e53e3e;
+}
+
+/* Game Status */
+.game-status {
+  text-align: center;
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  color: #4a5568;
 }
 
 /* Score Display */
@@ -187,36 +228,121 @@
   color: #4b5563;
 }
 
-/* Responsive Design */
+/* Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes buttonPress {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-button {
+  transition: transform 0.1s ease-out;
+}
+
+.animate-button:active {
+  animation: buttonPress 0.2s ease-out;
+}
+
+/* Media Queries */
 @media (max-width: 640px) {
-  .game-content {
-    padding: 1rem;
+  .game-container {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+
+  .game-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .quantity-controls {
+    gap: 0.25rem;
+  }
+
+  .quantity-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+
+  .quantity-input {
+    width: 3.5rem;
+    height: 2.5rem;
+    font-size: 1.125rem;
+  }
+
+  .action-btn {
+    padding: 0.875rem;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+  .quantity-btn:hover,
+  .action-btn:hover {
+    transform: none;
+  }
+
+  .quantity-btn:active,
+  .action-btn:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Landscape Mode */
+@media (max-height: 500px) and (orientation: landscape) {
+  .game-container {
+    min-height: auto;
+    padding: 0.5rem;
+  }
+
+  .game-header {
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+  }
+
+  .game-controls {
+    flex-direction: row;
+    align-items: center;
     gap: 1rem;
   }
 
   .action-buttons {
-    flex-direction: column;
-  }
-
-  .eat-btn, .skip-btn {
-    width: 100%;
-  }
-
-  .quantity-controls {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .custom-quantity-form {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .custom-quantity-input {
-    width: 100%;
-  }
-
-  .custom-quantity-btn {
-    width: 100%;
+    flex: 1;
   }
 } 
