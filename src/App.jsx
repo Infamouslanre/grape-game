@@ -84,7 +84,7 @@ function App() {
         <div className="min-h-screen bg-gray-100">
           <div className="container mx-auto px-4 py-8">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-              <h1 className="text-2xl sm:text-3xl font-bold text-purple-600">Grape Game</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-purple-600">The Death Grape</h1>
               <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
                 <button
                   onClick={() => setShowHighScores(true)}

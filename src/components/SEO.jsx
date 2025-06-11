@@ -2,10 +2,10 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ 
-  title = "Grape Game - Test Your Luck and Strategy",
+  title = "The Death Grape Game - Test Your Luck and Strategy",
   description = "Play the exciting Grape Game where you test your luck and strategy! Eat grapes, avoid the poisoned one, and compete for high scores. A fun, addictive game for all ages.",
   keywords = "grape game, strategy game, luck game, browser game, online game, puzzle game, casual game",
-  image = "/sprites/grape.png",
+  image = "/public/sprites/grape.png",
   url = "https://grape-game-9014f.web.app"
 }) => {
   return (
