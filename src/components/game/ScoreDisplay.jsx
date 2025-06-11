@@ -1,11 +1,20 @@
 import React from 'react';
 
-export default function ScoreDisplay({ score, remainingGrapes }) {
+const ScoreDisplay = React.memo(({ score, remainingGrapes }) => {
   return (
-    <div className="flex flex-col items-center gap-2">
-      <p>Score: {score}</p>
-      <p>Grapes Left: {remainingGrapes}</p>
-      <p className="text-sm text-gray-500 mt-2">Press ESC to pause</p>
+    <div className="score-display">
+      <div className="score">
+        <span className="score-label">Score:</span>
+        <span className="score-value">{score}</span>
+      </div>
+      <div className="remaining">
+        <span className="remaining-label">Remaining:</span>
+        <span className="remaining-value">{remainingGrapes}</span>
+      </div>
     </div>
   );
-} 
+});
+
+ScoreDisplay.displayName = 'ScoreDisplay';
+
+export default ScoreDisplay; 
